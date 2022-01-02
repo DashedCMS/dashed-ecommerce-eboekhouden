@@ -2,24 +2,75 @@
 
 namespace Qubiqx\QcommerceEcommerceEboekhouden;
 
-use Qubiqx\QcommerceEcommerceEboekhouden\Commands\QcommerceEcommerceEboekhoudenCommand;
+use Filament\PluginServiceProvider;
+use Illuminate\Console\Scheduling\Schedule;
+use Qubiqx\QcommerceEcommerceEboekhouden\Filament\Pages\Settings\EboekhoudenSettingsPage;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class QcommerceEcommerceEboekhoudenServiceProvider extends PackageServiceProvider
+class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
 {
+    public static string $name = 'qcommerce-ecommerce-eboekhouden';
+
+    public function bootingPackage()
+    {
+        $this->app->booted(function () {
+            $schedule = app(Schedule::class);
+//            $schedule->command(PushProductsToeboekhouden::class)->everyFiveMinutes();
+//            $schedule->command(SyncProductStockWitheboekhouden::class)->everyFiveMinutes();
+//            $schedule->command(PushOrdersToeboekhoudenCommand::class)->everyFiveMinutes();
+//            $schedule->command(UpdateOrdersToeboekhoudenCommand::class)->everyFifteenMinutes();
+        });
+
+//        Livewire::component('show-eboekhouden-order', ShoweboekhoudenOrder::class);
+//        Livewire::component('edit-eboekhouden-product', EditeboekhoudenProduct::class);
+
+//        Order::addDynamicRelation('eboekhoudenOrder', function (Order $model) {
+//            return $model->hasOne(eboekhoudenOrder::class);
+//        });
+//        Product::addDynamicRelation('eboekhoudenProduct', function (Product $model) {
+//            return $model->hasOne(eboekhoudenProduct::class);
+//        });
+    }
+
     public function configurePackage(Package $package): void
     {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
+        cms()->builder(
+            'settingPages',
+            array_merge(cms()->builder('settingPages'), [
+                'eboekhouden' => [
+                    'name' => 'eboekhouden',
+                    'description' => 'Koppel eboekhouden',
+                    'icon' => 'archive',
+                    'page' => EboekhoudenSettingsPage::class,
+                ],
+            ])
+        );
+
         $package
             ->name('qcommerce-ecommerce-eboekhouden')
-            ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_qcommerce-ecommerce-eboekhouden_table')
-            ->hasCommand(QcommerceEcommerceEboekhoudenCommand::class);
+            ->hasCommands([
+//                PushProductsToeboekhouden::class,
+//                SyncProductStockWitheboekhouden::class,
+//                PushOrdersToeboekhoudenCommand::class,
+//                UpdateOrdersToeboekhoudenCommand::class,
+            ]);
+    }
+
+    protected function getPages(): array
+    {
+        return array_merge(parent::getPages(), [
+            EboekhoudenSettingsPage::class,
+        ]);
+    }
+
+    protected function getWidgets(): array
+    {
+        return array_merge(parent::getWidgets(), [
+            eboekhoudenOrderStats::class,
+        ]);
     }
 }
