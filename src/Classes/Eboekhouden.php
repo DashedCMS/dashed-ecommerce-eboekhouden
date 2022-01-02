@@ -91,7 +91,7 @@ class Eboekhouden
         $GB = Customsetting::get('eboekhouden_grootboek_rekening', $eboekhoudenOrder->order->site_id);
         $DR = Customsetting::get('eboekhouden_debiteuren_rekening', $eboekhoudenOrder->order->site_id);
 
-        if (!$eboekhoudenOrder->relation_id) {
+        if (! $eboekhoudenOrder->relation_id) {
             $otherOrders = Order::where('email', $eboekhoudenOrder->order->email)->get();
             foreach ($otherOrders as $otherOrder) {
                 if ($otherOrder->eboekhoudenOrder && $otherOrder->eboekhoudenOrder->relation_id) {
@@ -102,7 +102,7 @@ class Eboekhouden
             }
         }
 
-        if (!$eboekhoudenOrder->relation_id) {
+        if (! $eboekhoudenOrder->relation_id) {
             try {
                 $relationCode = $eboekhoudenOrder->order->site_id . Str::random(6);
                 $client = self::getSoapClient();
@@ -131,7 +131,7 @@ class Eboekhouden
                         'Telefoon' => $eboekhoudenOrder->order->phone_number,
                         'Email' => $eboekhoudenOrder->order->email,
                         'BTWNummer' => $eboekhoudenOrder->order->btw_id,
-                    ]
+                    ],
                 ];
 
                 $response = $client->__soapCall("AddRelatie", [$params]);
@@ -147,7 +147,7 @@ class Eboekhouden
             }
         }
 
-        if (!$eboekhoudenOrder->pushed && $eboekhoudenOrder->relation_id) {
+        if (! $eboekhoudenOrder->pushed && $eboekhoudenOrder->relation_id) {
             try {
                 $invoiceLines = [];
 
@@ -259,7 +259,7 @@ class Eboekhouden
 
 
                 $response = $client->__soapCall("AddMutatie", [$params]);
-                if (!isset($response->AddMutatieResult->Mutatienummer) || !$response->AddMutatieResult->Mutatienummer) {
+                if (! isset($response->AddMutatieResult->Mutatienummer) || ! $response->AddMutatieResult->Mutatienummer) {
                     $eboekhoudenOrder->pushed = 2;
                     $eboekhoudenOrder->save();
                 } else {
