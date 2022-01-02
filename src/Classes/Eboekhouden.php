@@ -2,20 +2,21 @@
 
 namespace Qubiqx\QcommerceEcommerceEboekhouden\Classes;
 
+use Illuminate\Support\Str;
 use Qubiqx\QcommerceCore\Classes\Sites;
 use Qubiqx\QcommerceCore\Models\Customsetting;
 use Qubiqx\QcommerceEcommerceCore\Models\Order;
 use Qubiqx\QcommerceEcommerceEboekhouden\Models\EboekhoudenOrder;
 use SoapClient;
-use Illuminate\Support\Str;
 
 class Eboekhouden
 {
-    const SOAPBASEURL = "https://soap.e-boekhouden.nl/soap.asmx?WSDL";
+    public const SOAPBASEURL = "https://soap.e-boekhouden.nl/soap.asmx?WSDL";
 
     public static function getSoapClient()
     {
         $client = new SoapClient(self::SOAPBASEURL);
+
         return $client;
     }
 
@@ -25,7 +26,7 @@ class Eboekhouden
         $securityCode1 = Customsetting::get('eboekhouden_security_code_1', $siteId);
         $securityCode2 = Customsetting::get('eboekhouden_security_code_2', $siteId);
 
-        if (!$username || !$securityCode1 || !$securityCode2) {
+        if (! $username || ! $securityCode1 || ! $securityCode2) {
             return;
         }
 
@@ -34,7 +35,7 @@ class Eboekhouden
             $params = [
                 "Username" => $username,
                 "SecurityCode1" => $securityCode1,
-                "SecurityCode2" => $securityCode2
+                "SecurityCode2" => $securityCode2,
             ];
 
             $response = $client->__soapCall("OpenSession", [$params]);
@@ -52,7 +53,7 @@ class Eboekhouden
         $client = self::getSoapClient();
 
         $params = [
-            "SessionID" => $sessionId
+            "SessionID" => $sessionId,
         ];
 
         $response = $client->__soapCall("CloseSession", [$params]);
@@ -60,7 +61,7 @@ class Eboekhouden
 
     public static function isConnected($siteId = null)
     {
-        if (!$siteId) {
+        if (! $siteId) {
             $siteId = Sites::getActive();
         }
 
@@ -72,6 +73,7 @@ class Eboekhouden
 
         if ($sessionId) {
             self::closeSession($sessionId);
+
             return true;
         }
 
@@ -80,6 +82,7 @@ class Eboekhouden
 
     public static function pushOrder(EboekhoudenOrder $eboekhoudenOrder)
     {
+<<<<<<< HEAD
         if ($eboekhoudenOrder->pushed) {
             return;
         }
@@ -101,6 +104,22 @@ class Eboekhouden
         }
 
         if (!$eboekhoudenOrder->relation_id) {
+=======
+        $sessionId = self::openSession($order->site_id);
+        $securityCode2 = Customsetting::get('eboekhouden_security_code_2', $order->site_id);
+        $GB = Customsetting::get('eboekhouden_grootboek_rekening', $order->site_id);
+        $DR = Customsetting::get('eboekhouden_debiteuren_rekening', $order->site_id);
+
+        if (! $order->eboekhouden_order_connection_id) {
+            $otherOrder = Order::whereNotNull('eboekhouden_order_connection_id')->where('email', $order->email)->first();
+            if ($otherOrder) {
+                $order->eboekhouden_order_connection_id = $otherOrder->eboekhouden_order_connection_id;
+                $order->save();
+            }
+        }
+
+        if (! $order->eboekhouden_order_connection_id) {
+>>>>>>> 090da1af221465fa7ce9f36b5761f0861f24e4c0
             try {
                 $relationCode = $eboekhoudenOrder->order->site_id . Str::random(6);
                 $client = self::getSoapClient();
@@ -115,6 +134,7 @@ class Eboekhouden
                         'NieuwsbriefgroepenCount' => 0,
                         'BP' => $eboekhoudenOrder->order->company_name ? 'B' : 'P',
                         'Code' => $relationCode,
+<<<<<<< HEAD
                         'Bedrijf' => $eboekhoudenOrder->order->company_name ?: $eboekhoudenOrder->order->name,
                         'Geslacht' => $eboekhoudenOrder->order->gender == 'M' ? 'm' : ($eboekhoudenOrder->order->gender == 'F' ? 'v' : null),
                         'Contactpersoon' => $eboekhoudenOrder->order->company_name ? $eboekhoudenOrder->order->name : null,
@@ -130,10 +150,27 @@ class Eboekhouden
                         'Email' => $eboekhoudenOrder->order->email,
                         'BTWNummer' => $eboekhoudenOrder->order->btw_id,
                     ]
+=======
+                        'Bedrijf' => $order->company_name ?: $order->name,
+                        'Geslacht' => $order->gender == 'M' ? 'm' : ($order->gender == 'F' ? 'v' : null),
+                        'Contactpersoon' => $order->company_name ? $order->name : null,
+                        'Adres' => $order->street . ' ' . $order->house_nr,
+                        'Postcode' => $order->zip_code,
+                        'Plaats' => $order->city,
+                        'Land' => $order->country,
+                        'Adres2' => $order->invoice_street . ' ' . $order->invoice_house_nr,
+                        'Postcode2' => $order->invoice_zip_code,
+                        'Plaats2' => $order->invoice_city,
+                        'Land2' => $order->invoice_country,
+                        'Telefoon' => $order->phone_number,
+                        'Email' => $order->email,
+                        'BTWNummer' => $order->btw_id,
+                    ],
+>>>>>>> 090da1af221465fa7ce9f36b5761f0861f24e4c0
                 ];
 
                 $response = $client->__soapCall("AddRelatie", [$params]);
-                if (!isset($response->AddRelatieResult->Rel_ID) || !$response->AddRelatieResult->Rel_ID) {
+                if (! isset($response->AddRelatieResult->Rel_ID) || ! $response->AddRelatieResult->Rel_ID) {
                     dd($response);
                 } else {
                     $eboekhoudenOrder->relation_code = $relationCode;
@@ -145,7 +182,11 @@ class Eboekhouden
             }
         }
 
+<<<<<<< HEAD
         if (!$eboekhoudenOrder->pushed && $eboekhoudenOrder->relation_id) {
+=======
+        if (! $order->pushed_to_eboekhouden && $order->eboekhouden_order_connection_id) {
+>>>>>>> 090da1af221465fa7ce9f36b5761f0861f24e4c0
             try {
                 $invoiceLines = [];
 
@@ -179,7 +220,7 @@ class Eboekhouden
                         'KostenplaatsID' => '',
                     ];
                     if ($orderProduct->vat_rate > 0) {
-                        if (!isset($totalAmountForVats[$vatRate])) {
+                        if (! isset($totalAmountForVats[$vatRate])) {
                             $totalAmountForVats[$vatRate] = 0;
                         }
                         $totalAmountForVats[$vatRate] += ($orderProduct->price * $orderProduct->quantity);
@@ -246,20 +287,26 @@ class Eboekhouden
                         'Rekening' => $DR,
                         'Datum' => $eboekhoudenOrder->order->created_at->format('Y-m-d'),
                         'MutatieRegels' => [
-                            'cMutatieRegel' => $invoiceLines
+                            'cMutatieRegel' => $invoiceLines,
                         ],
                         'Betalingstermijn' => 30,
                         'Omschrijving' => 'Order: ' . $eboekhoudenOrder->order->invoice_id,
 //                        'InExBTW' => $order->btw ? 'EX' : 'IN'
-                        'InExBTW' => 'IN'
-                    ]
+                        'InExBTW' => 'IN',
+                    ],
                 ];
 
 
                 $response = $client->__soapCall("AddMutatie", [$params]);
+<<<<<<< HEAD
                 if (!isset($response->AddMutatieResult->Mutatienummer) || !$response->AddMutatieResult->Mutatienummer) {
                     $eboekhoudenOrder->pushed = 2;
                     $eboekhoudenOrder->save();
+=======
+                if (! isset($response->AddMutatieResult->Mutatienummer) || ! $response->AddMutatieResult->Mutatienummer) {
+                    $order->pushed_to_eboekhouden = 2;
+                    $order->save();
+>>>>>>> 090da1af221465fa7ce9f36b5761f0861f24e4c0
                 } else {
                     $eboekhoudenOrder->pushed = 1;
                     $eboekhoudenOrder->save();
