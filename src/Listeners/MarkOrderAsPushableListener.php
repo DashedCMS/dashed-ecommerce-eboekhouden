@@ -25,7 +25,7 @@ class MarkOrderAsPushableListener
      */
     public function handle(InvoiceCreatedEvent $event)
     {
-        if (Eboekhouden::isConnected($event->order->site_id) && !$event->order->eboekhoudenOrder) {
+        if (Eboekhouden::isConnected($event->order->site_id) && ! $event->order->eboekhoudenOrder) {
             $event->order->eboekhoudenOrder()->create([]);
         }
     }
