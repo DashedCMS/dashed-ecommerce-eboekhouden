@@ -4,10 +4,12 @@ namespace Qubiqx\QcommerceEcommerceEboekhouden;
 
 use Filament\PluginServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
+use Livewire\Livewire;
 use Qubiqx\QcommerceEcommerceCore\Models\Order;
 use Qubiqx\QcommerceEcommerceEboekhouden\Commands\PushOrdersToEboekhoudenCommand;
 use Qubiqx\QcommerceEcommerceEboekhouden\Filament\Pages\Settings\EboekhoudenSettingsPage;
 use Qubiqx\QcommerceEcommerceEboekhouden\Filament\Widgets\EboekhoudenOrderStats;
+use Qubiqx\QcommerceEcommerceEboekhouden\Livewire\Orders\ShowEboekhoudenShopOrder;
 use Qubiqx\QcommerceEcommerceEboekhouden\Models\EboekhoudenOrder;
 use Spatie\LaravelPackageTools\Package;
 
@@ -21,6 +23,8 @@ class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
             $schedule = app(Schedule::class);
             $schedule->command(PushOrdersToEboekhoudenCommand::class)->everyFifteenMinutes();
         });
+
+        Livewire::component('show-eboekhouden-order', ShowEboekhoudenShopOrder::class);
 
         Order::addDynamicRelation('eboekhoudenOrder', function (Order $model) {
             return $model->hasOne(EboekhoudenOrder::class);
@@ -39,6 +43,15 @@ class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
                     'description' => 'Koppel E-boekhouden',
                     'icon' => 'archive',
                     'page' => EboekhoudenSettingsPage::class,
+                ],
+            ])
+        );
+
+        ecommerce()->builder(
+            'orderSideWidgets',
+            array_merge(ecommerce()->builder('orderSideWidgets'), [
+                'show-eboekhouden-order' => [
+                    'name' => 'show-eboekhouden-order',
                 ],
             ])
         );

@@ -18,6 +18,8 @@ class MigrateEboekhoudenToV2 extends Migration
         Schema::table('qcommerce__order_eboekhouden', function (Blueprint $table) {
             $table->unsignedBigInteger('order_id')->nullable()->after('id');
             $table->boolean('pushed')->default(0)->after('order_id');
+            $table->string('relation_code')->nullable()->change();
+            $table->string('relation_id')->nullable()->change();
         });
 
         foreach(\Qubiqx\QcommerceEcommerceCore\Models\Order::where('pushable_to_eboekhouden', 1)->get() as $order){
@@ -28,7 +30,7 @@ class MigrateEboekhoudenToV2 extends Migration
                 $eboekhoudenConnection->save();
             }
         }
-        
+
         \Qubiqx\QcommerceEcommerceEboekhouden\Models\EboekhoudenOrder::whereNull('order_id')->delete();
 
         Schema::table('qcommerce__orders', function (Blueprint $table) {
