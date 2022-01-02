@@ -5,7 +5,6 @@ namespace Qubiqx\QcommerceEcommerceEboekhouden\Filament\Widgets;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Card;
 use Qubiqx\QcommerceEcommerceEboekhouden\Models\EboekhoudenOrder;
-use Qubiqx\QcommerceEcommerceMontaportal\Models\MontaportalOrder;
 
 class EboekhoudenOrderStats extends StatsOverviewWidget
 {
