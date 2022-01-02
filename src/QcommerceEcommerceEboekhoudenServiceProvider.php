@@ -6,7 +6,6 @@ use Filament\PluginServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
 use Qubiqx\QcommerceEcommerceEboekhouden\Filament\Pages\Settings\EboekhoudenSettingsPage;
 use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
 {
@@ -41,8 +40,8 @@ class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
             'settingPages',
             array_merge(cms()->builder('settingPages'), [
                 'eboekhouden' => [
-                    'name' => 'eboekhouden',
-                    'description' => 'Koppel eboekhouden',
+                    'name' => 'E-boekhouden',
+                    'description' => 'Koppel E-boekhouden',
                     'icon' => 'archive',
                     'page' => EboekhoudenSettingsPage::class,
                 ],
@@ -70,7 +69,7 @@ class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
     protected function getWidgets(): array
     {
         return array_merge(parent::getWidgets(), [
-            eboekhoudenOrderStats::class,
+//            eboekhoudenOrderStats::class,
         ]);
     }
 }
