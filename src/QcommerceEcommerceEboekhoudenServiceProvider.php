@@ -6,7 +6,6 @@ use Filament\PluginServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
 use Qubiqx\QcommerceEcommerceEboekhouden\Filament\Pages\Settings\EboekhoudenSettingsPage;
 use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
 {
