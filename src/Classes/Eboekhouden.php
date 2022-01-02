@@ -82,7 +82,6 @@ class Eboekhouden
 
     public static function pushOrder(EboekhoudenOrder $eboekhoudenOrder)
     {
-<<<<<<< HEAD
         if ($eboekhoudenOrder->pushed) {
             return;
         }
@@ -104,22 +103,6 @@ class Eboekhouden
         }
 
         if (!$eboekhoudenOrder->relation_id) {
-=======
-        $sessionId = self::openSession($order->site_id);
-        $securityCode2 = Customsetting::get('eboekhouden_security_code_2', $order->site_id);
-        $GB = Customsetting::get('eboekhouden_grootboek_rekening', $order->site_id);
-        $DR = Customsetting::get('eboekhouden_debiteuren_rekening', $order->site_id);
-
-        if (! $order->eboekhouden_order_connection_id) {
-            $otherOrder = Order::whereNotNull('eboekhouden_order_connection_id')->where('email', $order->email)->first();
-            if ($otherOrder) {
-                $order->eboekhouden_order_connection_id = $otherOrder->eboekhouden_order_connection_id;
-                $order->save();
-            }
-        }
-
-        if (! $order->eboekhouden_order_connection_id) {
->>>>>>> 090da1af221465fa7ce9f36b5761f0861f24e4c0
             try {
                 $relationCode = $eboekhoudenOrder->order->site_id . Str::random(6);
                 $client = self::getSoapClient();
@@ -134,7 +117,6 @@ class Eboekhouden
                         'NieuwsbriefgroepenCount' => 0,
                         'BP' => $eboekhoudenOrder->order->company_name ? 'B' : 'P',
                         'Code' => $relationCode,
-<<<<<<< HEAD
                         'Bedrijf' => $eboekhoudenOrder->order->company_name ?: $eboekhoudenOrder->order->name,
                         'Geslacht' => $eboekhoudenOrder->order->gender == 'M' ? 'm' : ($eboekhoudenOrder->order->gender == 'F' ? 'v' : null),
                         'Contactpersoon' => $eboekhoudenOrder->order->company_name ? $eboekhoudenOrder->order->name : null,
@@ -150,23 +132,6 @@ class Eboekhouden
                         'Email' => $eboekhoudenOrder->order->email,
                         'BTWNummer' => $eboekhoudenOrder->order->btw_id,
                     ]
-=======
-                        'Bedrijf' => $order->company_name ?: $order->name,
-                        'Geslacht' => $order->gender == 'M' ? 'm' : ($order->gender == 'F' ? 'v' : null),
-                        'Contactpersoon' => $order->company_name ? $order->name : null,
-                        'Adres' => $order->street . ' ' . $order->house_nr,
-                        'Postcode' => $order->zip_code,
-                        'Plaats' => $order->city,
-                        'Land' => $order->country,
-                        'Adres2' => $order->invoice_street . ' ' . $order->invoice_house_nr,
-                        'Postcode2' => $order->invoice_zip_code,
-                        'Plaats2' => $order->invoice_city,
-                        'Land2' => $order->invoice_country,
-                        'Telefoon' => $order->phone_number,
-                        'Email' => $order->email,
-                        'BTWNummer' => $order->btw_id,
-                    ],
->>>>>>> 090da1af221465fa7ce9f36b5761f0861f24e4c0
                 ];
 
                 $response = $client->__soapCall("AddRelatie", [$params]);
@@ -182,11 +147,7 @@ class Eboekhouden
             }
         }
 
-<<<<<<< HEAD
         if (!$eboekhoudenOrder->pushed && $eboekhoudenOrder->relation_id) {
-=======
-        if (! $order->pushed_to_eboekhouden && $order->eboekhouden_order_connection_id) {
->>>>>>> 090da1af221465fa7ce9f36b5761f0861f24e4c0
             try {
                 $invoiceLines = [];
 
@@ -298,15 +259,9 @@ class Eboekhouden
 
 
                 $response = $client->__soapCall("AddMutatie", [$params]);
-<<<<<<< HEAD
                 if (!isset($response->AddMutatieResult->Mutatienummer) || !$response->AddMutatieResult->Mutatienummer) {
                     $eboekhoudenOrder->pushed = 2;
                     $eboekhoudenOrder->save();
-=======
-                if (! isset($response->AddMutatieResult->Mutatienummer) || ! $response->AddMutatieResult->Mutatienummer) {
-                    $order->pushed_to_eboekhouden = 2;
-                    $order->save();
->>>>>>> 090da1af221465fa7ce9f36b5761f0861f24e4c0
                 } else {
                     $eboekhoudenOrder->pushed = 1;
                     $eboekhoudenOrder->save();
