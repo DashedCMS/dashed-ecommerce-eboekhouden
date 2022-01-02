@@ -2,9 +2,9 @@
 
 namespace Qubiqx\QcommerceEcommerceEboekhouden;
 
+use Qubiqx\QcommerceEcommerceEboekhouden\Commands\QcommerceEcommerceEboekhoudenCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Qubiqx\QcommerceEcommerceEboekhouden\Commands\QcommerceEcommerceEboekhoudenCommand;
 
 class QcommerceEcommerceEboekhoudenServiceProvider extends PackageServiceProvider
 {
