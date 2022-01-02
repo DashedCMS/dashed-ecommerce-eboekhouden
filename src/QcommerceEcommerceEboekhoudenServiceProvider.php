@@ -4,7 +4,11 @@ namespace Qubiqx\QcommerceEcommerceEboekhouden;
 
 use Filament\PluginServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
+use Qubiqx\QcommerceEcommerceCore\Models\Order;
+use Qubiqx\QcommerceEcommerceEboekhouden\Commands\PushOrdersToEboekhoudenCommand;
 use Qubiqx\QcommerceEcommerceEboekhouden\Filament\Pages\Settings\EboekhoudenSettingsPage;
+use Qubiqx\QcommerceEcommerceEboekhouden\Filament\Widgets\EboekhoudenOrderStats;
+use Qubiqx\QcommerceEcommerceEboekhouden\Models\EboekhoudenOrder;
 use Spatie\LaravelPackageTools\Package;
 
 class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
@@ -15,21 +19,12 @@ class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
     {
         $this->app->booted(function () {
             $schedule = app(Schedule::class);
-//            $schedule->command(PushProductsToeboekhouden::class)->everyFiveMinutes();
-//            $schedule->command(SyncProductStockWitheboekhouden::class)->everyFiveMinutes();
-//            $schedule->command(PushOrdersToeboekhoudenCommand::class)->everyFiveMinutes();
-//            $schedule->command(UpdateOrdersToeboekhoudenCommand::class)->everyFifteenMinutes();
+            $schedule->command(PushOrdersToEboekhoudenCommand::class)->everyFifteenMinutes();
         });
 
-//        Livewire::component('show-eboekhouden-order', ShoweboekhoudenOrder::class);
-//        Livewire::component('edit-eboekhouden-product', EditeboekhoudenProduct::class);
-
-//        Order::addDynamicRelation('eboekhoudenOrder', function (Order $model) {
-//            return $model->hasOne(eboekhoudenOrder::class);
-//        });
-//        Product::addDynamicRelation('eboekhoudenProduct', function (Product $model) {
-//            return $model->hasOne(eboekhoudenProduct::class);
-//        });
+        Order::addDynamicRelation('eboekhoudenOrder', function (Order $model) {
+            return $model->hasOne(EboekhoudenOrder::class);
+        });
     }
 
     public function configurePackage(Package $package): void
@@ -52,10 +47,7 @@ class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
             ->name('qcommerce-ecommerce-eboekhouden')
             ->hasViews()
             ->hasCommands([
-//                PushProductsToeboekhouden::class,
-//                SyncProductStockWitheboekhouden::class,
-//                PushOrdersToeboekhoudenCommand::class,
-//                UpdateOrdersToeboekhoudenCommand::class,
+                PushOrdersToEboekhoudenCommand::class,
             ]);
     }
 
@@ -69,7 +61,7 @@ class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
     protected function getWidgets(): array
     {
         return array_merge(parent::getWidgets(), [
-//            eboekhoudenOrderStats::class,
+            EboekhoudenOrderStats::class,
         ]);
     }
 }

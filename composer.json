@@ -50,6 +50,7 @@
     "extra": {
         "laravel": {
             "providers": [
+                "Qubiqx\\QcommerceEcommerceEboekhouden\\QcommerceEcommerceEboekhoudenEventServiceProvider",
                 "Qubiqx\\QcommerceEcommerceEboekhouden\\QcommerceEcommerceEboekhoudenServiceProvider"
             ],
             "aliases": {
