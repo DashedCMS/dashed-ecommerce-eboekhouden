@@ -3,6 +3,7 @@
 namespace Qubiqx\QcommerceEcommerceEboekhouden\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Qubiqx\QcommerceEcommerceCore\Models\Order;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class EboekhoudenOrder extends Model
@@ -25,4 +26,9 @@ class EboekhoudenOrder extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }
