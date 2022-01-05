@@ -20,5 +20,10 @@
                                 Bestelling wordt naar E-boekhouden gepushed
                                 </span>
         @endif
+    @else
+        <span
+            class="bg-yellow-100 text-yellow-800 inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium">
+                                Bestelling niet gekoppeld aan E-boekhouden
+                                </span>
     @endif
 </form>

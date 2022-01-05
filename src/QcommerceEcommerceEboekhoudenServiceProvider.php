@@ -47,11 +47,12 @@ class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
             ])
         );
 
-        ecommerce()->builder(
-            'orderSideWidgets',
-            array_merge(ecommerce()->builder('orderSideWidgets'), [
+        ecommerce()->widgets(
+            'orders',
+            array_merge(ecommerce()->widgets('orders'), [
                 'show-eboekhouden-order' => [
                     'name' => 'show-eboekhouden-order',
+                    'width' => 'sidebar'
                 ],
             ])
         );
