@@ -3,8 +3,8 @@
 namespace Qubiqx\QcommerceEcommerceEboekhouden\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Qubiqx\QcommerceEcommerceCore\Models\Order;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class EboekhoudenOrder extends Model
 {

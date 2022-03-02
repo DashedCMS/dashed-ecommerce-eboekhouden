@@ -2,8 +2,8 @@
 
 namespace Qubiqx\QcommerceEcommerceEboekhouden\Listeners;
 
-use Qubiqx\QcommerceEcommerceEboekhouden\Classes\Eboekhouden;
 use Qubiqx\QcommerceEcommerceCore\Events\Orders\InvoiceCreatedEvent;
+use Qubiqx\QcommerceEcommerceEboekhouden\Classes\Eboekhouden;
 
 class MarkOrderAsPushableListener
 {
