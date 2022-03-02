@@ -2,12 +2,12 @@
 
 namespace Qubiqx\QcommerceEcommerceEboekhouden\Classes;
 
+use SoapClient;
 use Illuminate\Support\Str;
 use Qubiqx\QcommerceCore\Classes\Sites;
 use Qubiqx\QcommerceCore\Models\Customsetting;
 use Qubiqx\QcommerceEcommerceCore\Models\Order;
 use Qubiqx\QcommerceEcommerceEboekhouden\Models\EboekhoudenOrder;
-use SoapClient;
 
 class Eboekhouden
 {

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class MigrateEboekhoudenToV2 extends Migration
 {
@@ -22,9 +22,9 @@ class MigrateEboekhoudenToV2 extends Migration
             $table->string('relation_id')->nullable()->change();
         });
 
-        foreach(\Qubiqx\QcommerceEcommerceCore\Models\Order::where('pushable_to_eboekhouden', 1)->get() as $order){
+        foreach (\Qubiqx\QcommerceEcommerceCore\Models\Order::where('pushable_to_eboekhouden', 1)->get() as $order) {
             $eboekhoudenConnection = \Qubiqx\QcommerceEcommerceEboekhouden\Models\EboekhoudenOrder::find($order->eboekhouden_order_connection_id);
-            if($eboekhoudenConnection){
+            if ($eboekhoudenConnection) {
                 $eboekhoudenConnection->order_id = $order->id;
                 $eboekhoudenConnection->pushed = $order->pushed_to_eboekhouden;
                 $eboekhoudenConnection->save();
