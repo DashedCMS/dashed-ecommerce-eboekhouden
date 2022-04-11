@@ -2,9 +2,10 @@
 
 namespace Qubiqx\QcommerceEcommerceEboekhouden\Models;
 
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
-use Qubiqx\QcommerceEcommerceCore\Models\Order;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Qubiqx\QcommerceEcommerceCore\Models\Order;
 
 class EboekhoudenOrder extends Model
 {
@@ -26,6 +27,11 @@ class EboekhoudenOrder extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
 
     public function order()
     {

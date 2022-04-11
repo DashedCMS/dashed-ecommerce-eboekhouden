@@ -2,16 +2,16 @@
 
 namespace Qubiqx\QcommerceEcommerceEboekhouden;
 
-use Filament\PluginServiceProvider;
-use Illuminate\Console\Scheduling\Schedule;
 use Livewire\Livewire;
-use Qubiqx\QcommerceEcommerceCore\Models\Order;
-use Qubiqx\QcommerceEcommerceEboekhouden\Commands\PushOrdersToEboekhoudenCommand;
-use Qubiqx\QcommerceEcommerceEboekhouden\Filament\Pages\Settings\EboekhoudenSettingsPage;
-use Qubiqx\QcommerceEcommerceEboekhouden\Filament\Widgets\EboekhoudenOrderStats;
-use Qubiqx\QcommerceEcommerceEboekhouden\Livewire\Orders\ShowEboekhoudenShopOrder;
-use Qubiqx\QcommerceEcommerceEboekhouden\Models\EboekhoudenOrder;
+use Filament\PluginServiceProvider;
 use Spatie\LaravelPackageTools\Package;
+use Illuminate\Console\Scheduling\Schedule;
+use Qubiqx\QcommerceEcommerceCore\Models\Order;
+use Qubiqx\QcommerceEcommerceEboekhouden\Models\EboekhoudenOrder;
+use Qubiqx\QcommerceEcommerceEboekhouden\Filament\Widgets\EboekhoudenOrderStats;
+use Qubiqx\QcommerceEcommerceEboekhouden\Commands\PushOrdersToEboekhoudenCommand;
+use Qubiqx\QcommerceEcommerceEboekhouden\Livewire\Orders\ShowEboekhoudenShopOrder;
+use Qubiqx\QcommerceEcommerceEboekhouden\Filament\Pages\Settings\EboekhoudenSettingsPage;
 
 class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
 {
