@@ -26,7 +26,7 @@ class Eboekhouden
         $securityCode1 = Customsetting::get('eboekhouden_security_code_1', $siteId);
         $securityCode2 = Customsetting::get('eboekhouden_security_code_2', $siteId);
 
-        if (! $username || ! $securityCode1 || ! $securityCode2) {
+        if (!$username || !$securityCode1 || !$securityCode2) {
             return;
         }
 
@@ -61,7 +61,7 @@ class Eboekhouden
 
     public static function isConnected($siteId = null)
     {
-        if (! $siteId) {
+        if (!$siteId) {
             $siteId = Sites::getActive();
         }
 
@@ -91,7 +91,7 @@ class Eboekhouden
         $GB = Customsetting::get('eboekhouden_grootboek_rekening', $eboekhoudenOrder->order->site_id);
         $DR = Customsetting::get('eboekhouden_debiteuren_rekening', $eboekhoudenOrder->order->site_id);
 
-        if (! $eboekhoudenOrder->relation_id) {
+        if (!$eboekhoudenOrder->relation_id) {
             $otherOrders = Order::where('email', $eboekhoudenOrder->order->email)->get();
             foreach ($otherOrders as $otherOrder) {
                 if ($otherOrder->eboekhoudenOrder && $otherOrder->eboekhoudenOrder->relation_id) {
@@ -102,7 +102,7 @@ class Eboekhouden
             }
         }
 
-        if (! $eboekhoudenOrder->relation_id) {
+        if (!$eboekhoudenOrder->relation_id) {
             try {
                 $relationCode = $eboekhoudenOrder->order->site_id . Str::random(6);
                 $client = self::getSoapClient();
@@ -135,7 +135,7 @@ class Eboekhouden
                 ];
 
                 $response = $client->__soapCall("AddRelatie", [$params]);
-                if (! isset($response->AddRelatieResult->Rel_ID) || ! $response->AddRelatieResult->Rel_ID) {
+                if (!isset($response->AddRelatieResult->Rel_ID) || !$response->AddRelatieResult->Rel_ID) {
                     dd($response);
                 } else {
                     $eboekhoudenOrder->relation_code = $relationCode;
@@ -147,7 +147,7 @@ class Eboekhouden
             }
         }
 
-        if (! $eboekhoudenOrder->pushed && $eboekhoudenOrder->relation_id) {
+        if (!$eboekhoudenOrder->pushed && $eboekhoudenOrder->relation_id) {
             try {
                 $invoiceLines = [];
 
@@ -156,35 +156,37 @@ class Eboekhouden
                 $totalPriceForProducts = 0;
 
                 foreach ($eboekhoudenOrder->order->orderProducts as $orderProduct) {
-                    $vatRate = $orderProduct->vat_rate;
+                    if (!$orderProduct->product->is_bundle) {
+                        $vatRate = $orderProduct->vat_rate;
 
-                    if ($vatRate == 21) {
-                        $vatCode = 'HOOG_VERK_21';
-                    } elseif ($vatRate == 9) {
-                        $vatCode = 'LAAG_VERK_9';
-                    } elseif ($vatRate > 0) {
-                        $vatCode = 'AFW_VERK';
-                    } else {
-                        $vatCode = 'GEEN';
-                    }
-
-                    $totalPriceForProducts += $orderProduct->price;
-
-                    $invoiceLines[] = [
-                        'BedragInvoer' => number_format($orderProduct->priceWithoutDiscount, 2),
-                        'BedragExclBTW' => number_format($orderProduct->priceWithoutDiscount - $orderProduct->vatWithoutDiscount, 2),
-                        'BedragBTW' => number_format($orderProduct->vatWithoutDiscount, 2),
-                        'BedragInclBTW' => number_format($orderProduct->priceWithoutDiscount, 2),
-                        'BTWCode' => $vatCode,
-                        'BTWPercentage' => number_format($vatRate, 2),
-                        'TegenrekeningCode' => $GB,
-                        'KostenplaatsID' => '',
-                    ];
-                    if ($orderProduct->vat_rate > 0) {
-                        if (! isset($totalAmountForVats[$vatRate])) {
-                            $totalAmountForVats[$vatRate] = 0;
+                        if ($vatRate == 21) {
+                            $vatCode = 'HOOG_VERK_21';
+                        } elseif ($vatRate == 9) {
+                            $vatCode = 'LAAG_VERK_9';
+                        } elseif ($vatRate > 0) {
+                            $vatCode = 'AFW_VERK';
+                        } else {
+                            $vatCode = 'GEEN';
                         }
-                        $totalAmountForVats[$vatRate] += ($orderProduct->price * $orderProduct->quantity);
+
+                        $totalPriceForProducts += $orderProduct->price;
+
+                        $invoiceLines[] = [
+                            'BedragInvoer' => number_format($orderProduct->priceWithoutDiscount, 2),
+                            'BedragExclBTW' => number_format($orderProduct->priceWithoutDiscount - $orderProduct->vatWithoutDiscount, 2),
+                            'BedragBTW' => number_format($orderProduct->vatWithoutDiscount, 2),
+                            'BedragInclBTW' => number_format($orderProduct->priceWithoutDiscount, 2),
+                            'BTWCode' => $vatCode,
+                            'BTWPercentage' => number_format($vatRate, 2),
+                            'TegenrekeningCode' => $GB,
+                            'KostenplaatsID' => '',
+                        ];
+                        if ($orderProduct->vat_rate > 0) {
+                            if (!isset($totalAmountForVats[$vatRate])) {
+                                $totalAmountForVats[$vatRate] = 0;
+                            }
+                            $totalAmountForVats[$vatRate] += ($orderProduct->price * $orderProduct->quantity);
+                        }
                     }
                 }
 
@@ -259,7 +261,7 @@ class Eboekhouden
 
 
                 $response = $client->__soapCall("AddMutatie", [$params]);
-                if (! isset($response->AddMutatieResult->Mutatienummer) || ! $response->AddMutatieResult->Mutatienummer) {
+                if (!isset($response->AddMutatieResult->Mutatienummer) || !$response->AddMutatieResult->Mutatienummer) {
                     $eboekhoudenOrder->pushed = 2;
                     $eboekhoudenOrder->save();
                 } else {
