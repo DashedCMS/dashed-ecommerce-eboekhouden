@@ -1,17 +1,17 @@
 {
-    "name": "qubiqx/qcommerce-ecommerce-eboekhouden",
-    "description": "This is my package qcommerce-ecommerce-eboekhouden",
+    "name": "dashed/dashed-ecommerce-eboekhouden",
+    "description": "This is my package dashed-ecommerce-eboekhouden",
     "keywords": [
-        "Qubiqx",
+        "Dashed",
         "laravel",
-        "qcommerce-ecommerce-eboekhouden"
+        "dashed-ecommerce-eboekhouden"
     ],
-    "homepage": "https://github.com/qubiqx/qcommerce-ecommerce-eboekhouden",
+    "homepage": "https://github.com/Dashed-DEV/dashed-ecommerce-eboekhouden",
     "license": "MIT",
     "authors": [
         {
             "name": "Robin van Maasakker",
-            "email": "robin@qubiqx.com",
+            "email": "robin@dashed.nl",
             "role": "Developer"
         }
     ],
@@ -29,13 +29,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Qubiqx\\QcommerceEcommerceEboekhouden\\": "src",
-            "Qubiqx\\QcommerceEcommerceEboekhouden\\Database\\Factories\\": "database/factories"
+            "Dashed\\DashedEcommerceEboekhouden\\": "src",
+            "Dashed\\DashedEcommerceEboekhouden\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Qubiqx\\QcommerceEcommerceEboekhouden\\Tests\\": "tests"
+            "Dashed\\DashedEcommerceEboekhouden\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -52,11 +52,11 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Qubiqx\\QcommerceEcommerceEboekhouden\\QcommerceEcommerceEboekhoudenEventServiceProvider",
-                "Qubiqx\\QcommerceEcommerceEboekhouden\\QcommerceEcommerceEboekhoudenServiceProvider"
+                "Dashed\\DashedEcommerceEboekhouden\\DashedEcommerceEboekhoudenEventServiceProvider",
+                "Dashed\\DashedEcommerceEboekhouden\\DashedEcommerceEboekhoudenServiceProvider"
             ],
             "aliases": {
-                "QcommerceEcommerceEboekhouden": "Qubiqx\\QcommerceEcommerceEboekhouden\\Facades\\QcommerceEcommerceEboekhouden"
+                "DashedEcommerceEboekhouden": "Dashed\\DashedEcommerceEboekhouden\\Facades\\DashedEcommerceEboekhouden"
             }
         }
     },

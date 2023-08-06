@@ -1,10 +1,10 @@
 <?php
 
-namespace Qubiqx\QcommerceEcommerceEboekhouden\Commands;
+namespace Dashed\DashedEcommerceEboekhouden\Commands;
 
 use Illuminate\Console\Command;
-use Qubiqx\QcommerceEcommerceEboekhouden\Classes\Eboekhouden;
-use Qubiqx\QcommerceEcommerceEboekhouden\Models\EboekhoudenOrder;
+use Dashed\DashedEcommerceEboekhouden\Classes\Eboekhouden;
+use Dashed\DashedEcommerceEboekhouden\Models\EboekhoudenOrder;
 
 class PushOrdersToEboekhoudenCommand extends Command
 {

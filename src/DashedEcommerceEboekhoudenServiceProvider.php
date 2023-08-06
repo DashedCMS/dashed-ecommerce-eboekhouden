@@ -1,21 +1,21 @@
 <?php
 
-namespace Qubiqx\QcommerceEcommerceEboekhouden;
+namespace Dashed\DashedEcommerceEboekhouden;
 
 use Filament\PluginServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
 use Livewire\Livewire;
-use Qubiqx\QcommerceEcommerceCore\Models\Order;
-use Qubiqx\QcommerceEcommerceEboekhouden\Commands\PushOrdersToEboekhoudenCommand;
-use Qubiqx\QcommerceEcommerceEboekhouden\Filament\Pages\Settings\EboekhoudenSettingsPage;
-use Qubiqx\QcommerceEcommerceEboekhouden\Filament\Widgets\EboekhoudenOrderStats;
-use Qubiqx\QcommerceEcommerceEboekhouden\Livewire\Orders\ShowEboekhoudenShopOrder;
-use Qubiqx\QcommerceEcommerceEboekhouden\Models\EboekhoudenOrder;
+use Dashed\DashedEcommerceCore\Models\Order;
+use Dashed\DashedEcommerceEboekhouden\Commands\PushOrdersToEboekhoudenCommand;
+use Dashed\DashedEcommerceEboekhouden\Filament\Pages\Settings\EboekhoudenSettingsPage;
+use Dashed\DashedEcommerceEboekhouden\Filament\Widgets\EboekhoudenOrderStats;
+use Dashed\DashedEcommerceEboekhouden\Livewire\Orders\ShowEboekhoudenShopOrder;
+use Dashed\DashedEcommerceEboekhouden\Models\EboekhoudenOrder;
 use Spatie\LaravelPackageTools\Package;
 
-class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
+class DashedEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
 {
-    public static string $name = 'qcommerce-ecommerce-eboekhouden';
+    public static string $name = 'dashed-ecommerce-eboekhouden';
 
     public function bootingPackage()
     {
@@ -58,7 +58,7 @@ class QcommerceEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
         );
 
         $package
-            ->name('qcommerce-ecommerce-eboekhouden')
+            ->name('dashed-ecommerce-eboekhouden')
             ->hasViews()
             ->hasCommands([
                 PushOrdersToEboekhoudenCommand::class,

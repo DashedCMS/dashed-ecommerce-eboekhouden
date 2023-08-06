@@ -1,6 +1,6 @@
 <?php
 
-namespace Qubiqx\QcommerceEcommerceEboekhouden\Livewire\Orders;
+namespace Dashed\DashedEcommerceEboekhouden\Livewire\Orders;
 
 use Livewire\Component;
 
@@ -15,7 +15,7 @@ class ShowEboekhoudenShopOrder extends Component
 
     public function render()
     {
-        return view('qcommerce-ecommerce-eboekhouden::orders.components.show-eboekhouden-order');
+        return view('dashed-ecommerce-eboekhouden::orders.components.show-eboekhouden-order');
     }
 
     public function submit()

@@ -1,12 +1,12 @@
 <?php
 
-namespace Qubiqx\QcommerceEcommerceEboekhouden\Classes;
+namespace Dashed\DashedEcommerceEboekhouden\Classes;
 
 use Illuminate\Support\Str;
-use Qubiqx\QcommerceCore\Classes\Sites;
-use Qubiqx\QcommerceCore\Models\Customsetting;
-use Qubiqx\QcommerceEcommerceCore\Models\Order;
-use Qubiqx\QcommerceEcommerceEboekhouden\Models\EboekhoudenOrder;
+use Dashed\DashedCore\Classes\Sites;
+use Dashed\DashedCore\Models\Customsetting;
+use Dashed\DashedEcommerceCore\Models\Order;
+use Dashed\DashedEcommerceEboekhouden\Models\EboekhoudenOrder;
 use SoapClient;
 
 class Eboekhouden

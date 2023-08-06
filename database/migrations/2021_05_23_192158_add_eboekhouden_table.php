@@ -13,7 +13,7 @@ class AddEboekhoudenTable extends Migration
      */
     public function up()
     {
-        Schema::create('qcommerce__eboekhouden_order_connection', function (Blueprint $table) {
+        Schema::create('dashed__eboekhouden_order_connection', function (Blueprint $table) {
             $table->id();
 
             $table->string('relation_code');
@@ -22,15 +22,15 @@ class AddEboekhoudenTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('qcommerce__orders', function (Blueprint $table) {
+        Schema::table('dashed__orders', function (Blueprint $table) {
             $table->boolean('pushable_to_eboekhouden')->default(0);
             $table->boolean('pushed_to_eboekhouden')->default(0);
             $table->unsignedBigInteger('eboekhouden_order_connection_id')->nullable();
-            $table->foreign('eboekhouden_order_connection_id')->references('id')->on('qcommerce__eboekhouden_order_connection');
+            $table->foreign('eboekhouden_order_connection_id')->references('id')->on('dashed__eboekhouden_order_connection');
         });
 
-        if (\Qubiqx\QcommerceEcommerceEboekhouden\Classes\Eboekhouden::isConnected(\Qubiqx\QcommerceCore\Classes\Sites::getActive())) {
-            foreach (\Qubiqx\QcommerceEcommerceCore\Models\Order::isPaid()->get() as $order) {
+        if (\Dashed\DashedEcommerceEboekhouden\Classes\Eboekhouden::isConnected(\Dashed\DashedCore\Classes\Sites::getActive())) {
+            foreach (\Dashed\DashedEcommerceCore\Models\Order::isPaid()->get() as $order) {
                 $order->pushable_to_eboekhouden = 1;
                 $order->save();
             }

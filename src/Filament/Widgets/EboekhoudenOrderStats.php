@@ -1,10 +1,10 @@
 <?php
 
-namespace Qubiqx\QcommerceEcommerceEboekhouden\Filament\Widgets;
+namespace Dashed\DashedEcommerceEboekhouden\Filament\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Card;
-use Qubiqx\QcommerceEcommerceEboekhouden\Models\EboekhoudenOrder;
+use Dashed\DashedEcommerceEboekhouden\Models\EboekhoudenOrder;
 
 class EboekhoudenOrderStats extends StatsOverviewWidget
 {

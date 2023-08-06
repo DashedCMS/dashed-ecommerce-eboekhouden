@@ -1,9 +1,9 @@
 <?php
 
-namespace Qubiqx\QcommerceEcommerceEboekhouden\Listeners;
+namespace Dashed\DashedEcommerceEboekhouden\Listeners;
 
-use Qubiqx\QcommerceEcommerceCore\Events\Orders\InvoiceCreatedEvent;
-use Qubiqx\QcommerceEcommerceEboekhouden\Classes\Eboekhouden;
+use Dashed\DashedEcommerceCore\Events\Orders\InvoiceCreatedEvent;
+use Dashed\DashedEcommerceEboekhouden\Classes\Eboekhouden;
 
 class MarkOrderAsPushableListener
 {

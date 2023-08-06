@@ -1,9 +1,9 @@
 <?php
 
-namespace Qubiqx\QcommerceEcommerceEboekhouden\Models;
+namespace Dashed\DashedEcommerceEboekhouden\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Qubiqx\QcommerceEcommerceCore\Models\Order;
+use Dashed\DashedEcommerceCore\Models\Order;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -13,7 +13,7 @@ class EboekhoudenOrder extends Model
 
     protected static $logFillable = true;
 
-    protected $table = 'qcommerce__order_eboekhouden';
+    protected $table = 'dashed__order_eboekhouden';
 
     protected $fillable = [
         'order_id',
