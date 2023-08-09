@@ -13,28 +13,21 @@ class AddEboekhoudenTable extends Migration
      */
     public function up()
     {
-        Schema::create('dashed__eboekhouden_order_connection', function (Blueprint $table) {
+        Schema::create('dashed__order_eboekhouden', function (Blueprint $table) {
             $table->id();
 
-            $table->string('relation_code');
-            $table->string('relation_id');
+            $table->foreignId('order_id')
+                ->nullable();
+            $table->boolean('pushed')
+                ->default(false);
+
+            $table->string('relation_code')
+                ->nullable();
+            $table->string('relation_id')
+                ->nullable();
 
             $table->timestamps();
         });
-
-        Schema::table('dashed__orders', function (Blueprint $table) {
-            $table->boolean('pushable_to_eboekhouden')->default(0);
-            $table->boolean('pushed_to_eboekhouden')->default(0);
-            $table->unsignedBigInteger('eboekhouden_order_connection_id')->nullable();
-            $table->foreign('eboekhouden_order_connection_id')->references('id')->on('dashed__eboekhouden_order_connection');
-        });
-
-        if (\Dashed\DashedEcommerceEboekhouden\Classes\Eboekhouden::isConnected(\Dashed\DashedCore\Classes\Sites::getActive())) {
-            foreach (\Dashed\DashedEcommerceCore\Models\Order::isPaid()->get() as $order) {
-                $order->pushable_to_eboekhouden = 1;
-                $order->save();
-            }
-        }
     }
 
     /**
