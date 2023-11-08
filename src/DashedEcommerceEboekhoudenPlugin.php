@@ -2,10 +2,10 @@
 
 namespace Dashed\DashedEcommerceEboekhouden;
 
-use Filament\Panel;
-use Filament\Contracts\Plugin;
-use Dashed\DashedEcommerceEboekhouden\Filament\Widgets\EboekhoudenOrderStats;
 use Dashed\DashedEcommerceEboekhouden\Filament\Pages\Settings\EboekhoudenSettingsPage;
+use Dashed\DashedEcommerceEboekhouden\Filament\Widgets\EboekhoudenOrderStats;
+use Filament\Contracts\Plugin;
+use Filament\Panel;
 
 class DashedEcommerceEboekhoudenPlugin implements Plugin
 {

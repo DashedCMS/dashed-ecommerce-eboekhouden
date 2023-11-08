@@ -2,12 +2,12 @@
 
 namespace Dashed\DashedEcommerceEboekhouden\Classes;
 
-use SoapClient;
-use Illuminate\Support\Str;
 use Dashed\DashedCore\Classes\Sites;
 use Dashed\DashedCore\Models\Customsetting;
 use Dashed\DashedEcommerceCore\Models\Order;
 use Dashed\DashedEcommerceEboekhouden\Models\EboekhoudenOrder;
+use Illuminate\Support\Str;
+use SoapClient;
 
 class Eboekhouden
 {

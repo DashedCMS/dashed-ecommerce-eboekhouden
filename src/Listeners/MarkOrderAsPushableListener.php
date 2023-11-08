@@ -2,8 +2,8 @@
 
 namespace Dashed\DashedEcommerceEboekhouden\Listeners;
 
-use Dashed\DashedEcommerceEboekhouden\Classes\Eboekhouden;
 use Dashed\DashedEcommerceCore\Events\Orders\InvoiceCreatedEvent;
+use Dashed\DashedEcommerceEboekhouden\Classes\Eboekhouden;
 
 class MarkOrderAsPushableListener
 {
