@@ -2,18 +2,17 @@
 
 namespace Dashed\DashedEcommerceEboekhouden;
 
-use Dashed\DashedEcommerceCore\Models\Order;
-use Dashed\DashedEcommerceEboekhouden\Commands\PushOrdersToEboekhoudenCommand;
-use Dashed\DashedEcommerceEboekhouden\Filament\Pages\Settings\EboekhoudenSettingsPage;
-use Dashed\DashedEcommerceEboekhouden\Filament\Widgets\EboekhoudenOrderStats;
-use Dashed\DashedEcommerceEboekhouden\Livewire\Orders\ShowEboekhoudenShopOrder;
-use Dashed\DashedEcommerceEboekhouden\Models\EboekhoudenOrder;
-use Filament\PluginServiceProvider;
-use Illuminate\Console\Scheduling\Schedule;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
+use Illuminate\Console\Scheduling\Schedule;
+use Dashed\DashedEcommerceCore\Models\Order;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Dashed\DashedEcommerceEboekhouden\Models\EboekhoudenOrder;
+use Dashed\DashedEcommerceEboekhouden\Commands\PushOrdersToEboekhoudenCommand;
+use Dashed\DashedEcommerceEboekhouden\Livewire\Orders\ShowEboekhoudenShopOrder;
+use Dashed\DashedEcommerceEboekhouden\Filament\Pages\Settings\EboekhoudenSettingsPage;
 
-class DashedEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
+class DashedEcommerceEboekhoudenServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'dashed-ecommerce-eboekhouden';
 
@@ -41,21 +40,21 @@ class DashedEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
                 'eboekhouden' => [
                     'name' => 'E-boekhouden',
                     'description' => 'Koppel E-boekhouden',
-                    'icon' => 'archive',
+                    'icon' => 'archive-box',
                     'page' => EboekhoudenSettingsPage::class,
                 ],
             ])
         );
 
-        ecommerce()->widgets(
-            'orders',
-            array_merge(ecommerce()->widgets('orders'), [
-                'show-eboekhouden-order' => [
-                    'name' => 'show-eboekhouden-order',
-                    'width' => 'sidebar',
-                ],
-            ])
-        );
+        //        ecommerce()->widgets(
+        //            'orders',
+        //            array_merge(ecommerce()->widgets('orders'), [
+        //                'show-eboekhouden-order' => [
+        //                    'name' => 'show-eboekhouden-order',
+        //                    'width' => 'sidebar',
+        //                ],
+        //            ])
+        //        );
 
         $package
             ->name('dashed-ecommerce-eboekhouden')
@@ -63,19 +62,5 @@ class DashedEcommerceEboekhoudenServiceProvider extends PluginServiceProvider
             ->hasCommands([
                 PushOrdersToEboekhoudenCommand::class,
             ]);
-    }
-
-    protected function getPages(): array
-    {
-        return array_merge(parent::getPages(), [
-            EboekhoudenSettingsPage::class,
-        ]);
-    }
-
-    protected function getWidgets(): array
-    {
-        return array_merge(parent::getWidgets(), [
-            EboekhoudenOrderStats::class,
-        ]);
     }
 }
