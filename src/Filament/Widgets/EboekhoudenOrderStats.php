@@ -2,9 +2,9 @@
 
 namespace Dashed\DashedEcommerceEboekhouden\Filament\Widgets;
 
-use Dashed\DashedEcommerceEboekhouden\Models\EboekhoudenOrder;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Card;
+use Dashed\DashedEcommerceEboekhouden\Models\EboekhoudenOrder;
 
 class EboekhoudenOrderStats extends StatsOverviewWidget
 {

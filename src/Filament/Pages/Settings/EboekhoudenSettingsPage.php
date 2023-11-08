@@ -2,25 +2,23 @@
 
 namespace Dashed\DashedEcommerceEboekhouden\Filament\Pages\Settings;
 
-use Dashed\DashedCore\Classes\Sites;
-use Dashed\DashedCore\Models\Customsetting;
-use Dashed\DashedEcommerceEboekhouden\Classes\Eboekhouden;
-use Filament\Forms\Components\Placeholder;
+use Filament\Pages\Page;
 use Filament\Forms\Components\Tabs;
+use Dashed\DashedCore\Classes\Sites;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Pages\Page;
+use Filament\Notifications\Notification;
+use Filament\Forms\Components\Placeholder;
+use Dashed\DashedCore\Models\Customsetting;
+use Dashed\DashedEcommerceEboekhouden\Classes\Eboekhouden;
 
-class EboekhoudenSettingsPage extends Page implements HasForms
+class EboekhoudenSettingsPage extends Page
 {
-    use InteractsWithForms;
-
     protected static bool $shouldRegisterNavigation = false;
     protected static ?string $title = 'E-boekhouden';
 
     protected static string $view = 'dashed-core::settings.pages.default-settings';
+    public array $data = [];
 
     public function mount(): void
     {
@@ -62,29 +60,19 @@ class EboekhoudenSettingsPage extends Page implements HasForms
                     ]),
                 TextInput::make("eboekhouden_username_{$site['id']}")
                     ->label('E-boekhouden username')
-                    ->rules([
-                        'max:255',
-                    ]),
+                    ->maxLength(255),
                 TextInput::make("eboekhouden_security_code_1_{$site['id']}")
                     ->label('E-boekhouden security code 1')
-                    ->rules([
-                        'max:255',
-                    ]),
+                    ->maxLength(255),
                 TextInput::make("eboekhouden_security_code_2_{$site['id']}")
                     ->label('E-boekhouden security code 2')
-                    ->rules([
-                        'max:255',
-                    ]),
+                    ->maxLength(255),
                 TextInput::make("eboekhouden_grootboek_rekening_{$site['id']}")
                     ->label('E-boekhouden grootboekrekening')
-                    ->rules([
-                        'max:255',
-                    ]),
+                    ->maxLength(255),
                 TextInput::make("eboekhouden_debiteuren_rekening_{$site['id']}")
                     ->label('E-boekhouden debiteurenrekening')
-                    ->rules([
-                        'max:255',
-                    ]),
+                    ->maxLength(255),
             ];
 
             $tabs[] = Tab::make($site['id'])
@@ -101,6 +89,11 @@ class EboekhoudenSettingsPage extends Page implements HasForms
         return $tabGroups;
     }
 
+    public function getFormStatePath(): ?string
+    {
+        return 'data';
+    }
+
     public function submit()
     {
         $sites = Sites::getSites();
@@ -114,7 +107,10 @@ class EboekhoudenSettingsPage extends Page implements HasForms
             Customsetting::set('eboekhouden_connected', Eboekhouden::isConnected($site['id']), $site['id']);
         }
 
-        $this->notify('success', 'De E-boekhouden instellingen zijn opgeslagen');
+        Notification::make()
+            ->title('De E-boekhouden instellingen zijn opgeslagen')
+            ->success()
+            ->send();
 
         return redirect(EboekhoudenSettingsPage::getUrl());
     }
