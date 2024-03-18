@@ -2,9 +2,9 @@
 
 namespace Dashed\DashedEcommerceEboekhouden\Commands;
 
-use Illuminate\Console\Command;
 use Dashed\DashedEcommerceEboekhouden\Classes\Eboekhouden;
 use Dashed\DashedEcommerceEboekhouden\Models\EboekhoudenOrder;
+use Illuminate\Console\Command;
 
 class PushOrdersToEboekhoudenCommand extends Command
 {
