@@ -2,7 +2,6 @@
 
 namespace Dashed\DashedEcommerceEboekhouden;
 
-<<<<<<< HEAD
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Illuminate\Console\Scheduling\Schedule;
@@ -12,17 +11,6 @@ use Dashed\DashedEcommerceEboekhouden\Models\EboekhoudenOrder;
 use Dashed\DashedEcommerceEboekhouden\Commands\PushOrdersToEboekhoudenCommand;
 use Dashed\DashedEcommerceEboekhouden\Livewire\Orders\ShowEboekhoudenShopOrder;
 use Dashed\DashedEcommerceEboekhouden\Filament\Pages\Settings\EboekhoudenSettingsPage;
-=======
-use Dashed\DashedEcommerceCore\Models\Order;
-use Dashed\DashedEcommerceEboekhouden\Commands\PushOrdersToEboekhoudenCommand;
-use Dashed\DashedEcommerceEboekhouden\Filament\Pages\Settings\EboekhoudenSettingsPage;
-use Dashed\DashedEcommerceEboekhouden\Livewire\Orders\ShowEboekhoudenShopOrder;
-use Dashed\DashedEcommerceEboekhouden\Models\EboekhoudenOrder;
-use Illuminate\Console\Scheduling\Schedule;
-use Livewire\Livewire;
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
->>>>>>> filamentv3
 
 class DashedEcommerceEboekhoudenServiceProvider extends PackageServiceProvider
 {
