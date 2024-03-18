@@ -21,17 +21,17 @@ class ShowEboekhoudenShopOrder extends Component
     public function submit()
     {
         if (! $this->order->eboekhoudenOrder) {
-            $this->emit('notify', [
+            $this->dispatch('notify', [
                 'status' => 'error',
                 'message' => 'De bestelling mag niet naar E-boekhouden gepushed worden.',
             ]);
         } elseif ($this->order->eboekhoudenOrder->pushed == 1) {
-            $this->emit('notify', [
+            $this->dispatch('notify', [
                 'status' => 'error',
                 'message' => 'De bestelling is al naar E-boekhouden gepushed.',
             ]);
         } elseif ($this->order->eboekhoudenOrder->pushed == 0) {
-            $this->emit('notify', [
+            $this->dispatch('notify', [
                 'status' => 'error',
                 'message' => 'De bestelling wordt al naar E-boekhouden gepushed.',
             ]);
@@ -40,8 +40,8 @@ class ShowEboekhoudenShopOrder extends Component
         $this->order->eboekhoudenOrder->pushed = 0;
         $this->order->eboekhoudenOrder->save();
 
-        $this->emit('refreshPage');
-        $this->emit('notify', [
+        $this->dispatch('refreshPage');
+        $this->dispatch('notify', [
             'status' => 'success',
             'message' => 'De bestelling wordt binnen enkele minuten opnieuw naar E-boekhouden gepushed.',
         ]);
