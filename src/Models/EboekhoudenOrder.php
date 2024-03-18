@@ -2,10 +2,10 @@
 
 namespace Dashed\DashedEcommerceEboekhouden\Models;
 
-use Dashed\DashedEcommerceCore\Models\Order;
-use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Dashed\DashedEcommerceCore\Models\Order;
 
 class EboekhoudenOrder extends Model
 {
