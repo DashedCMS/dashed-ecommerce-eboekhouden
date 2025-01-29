@@ -2,6 +2,7 @@
 
 namespace Dashed\DashedEcommerceEboekhouden;
 
+use Dashed\DashedCore\DashedCorePlugin;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Illuminate\Console\Scheduling\Schedule;
@@ -62,5 +63,9 @@ class DashedEcommerceEboekhoudenServiceProvider extends PackageServiceProvider
             ->hasCommands([
                 PushOrdersToEboekhoudenCommand::class,
             ]);
+
+        cms()->builder('plugins', [
+            new DashedEcommerceEboekhoudenPlugin(),
+        ]);
     }
 }
