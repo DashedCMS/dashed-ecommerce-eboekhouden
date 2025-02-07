@@ -34,17 +34,7 @@ class DashedEcommerceEboekhoudenServiceProvider extends PackageServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-        cms()->builder(
-            'settingPages',
-            array_merge(cms()->builder('settingPages'), [
-                'eboekhouden' => [
-                    'name' => 'E-boekhouden',
-                    'description' => 'Koppel E-boekhouden',
-                    'icon' => 'archive-box',
-                    'page' => EboekhoudenSettingsPage::class,
-                ],
-            ])
-        );
+        cms()->registerSettingsPage(EboekhoudenSettingsPage::class, 'E-boekhouden', 'archive-box', 'Koppel E-boekhouden');
 
         //        ecommerce()->widgets(
         //            'orders',
