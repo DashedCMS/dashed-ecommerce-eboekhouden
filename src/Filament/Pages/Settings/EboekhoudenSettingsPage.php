@@ -3,13 +3,14 @@
 namespace Dashed\DashedEcommerceEboekhouden\Filament\Pages\Settings;
 
 use Filament\Pages\Page;
-use Filament\Forms\Components\Tabs;
+use Filament\Schemas\Schema;
 use Dashed\DashedCore\Classes\Sites;
-use Filament\Forms\Components\Tabs\Tab;
+use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Filament\Forms\Components\Placeholder;
+use Filament\Schemas\Components\Tabs\Tab;
 use Dashed\DashedCore\Models\Customsetting;
+use Filament\Infolists\Components\TextEntry;
 use Dashed\DashedEcommerceEboekhouden\Classes\Eboekhouden;
 
 class EboekhoudenSettingsPage extends Page
@@ -17,7 +18,7 @@ class EboekhoudenSettingsPage extends Page
     protected static bool $shouldRegisterNavigation = false;
     protected static ?string $title = 'E-boekhouden';
 
-    protected static string $view = 'dashed-core::settings.pages.default-settings';
+    protected string $view = 'dashed-core::settings.pages.default-settings';
     public array $data = [];
 
     public function mount(): void
@@ -36,24 +37,23 @@ class EboekhoudenSettingsPage extends Page
         $this->form->fill($formData);
     }
 
-    protected function getFormSchema(): array
+    public function form(Schema $schema): Schema
     {
         $sites = Sites::getSites();
         $tabGroups = [];
 
         $tabs = [];
         foreach ($sites as $site) {
-            $schema = [
-                Placeholder::make('label')
-                    ->label("E-boekhouden voor {$site['name']}")
-                    ->content('Activeer E-boekhouden.')
+            $newSchema = [
+                TextEntry::make('label')
+                    ->state("E-boekhouden voor {$site['name']}")
+                    ->state('Activeer E-boekhouden.')
                     ->columnSpan([
                         'default' => 1,
                         'lg' => 2,
                     ]),
-                Placeholder::make('label')
-                    ->label("E-boekhouden is " . (! Customsetting::get('eboekhouden_connected', $site['id'], 0) ? 'niet' : '') . ' geconnect')
-                    ->content(Customsetting::get('eboekhouden_connection_error', $site['id'], ''))
+                TextEntry::make("E-boekhouden is " . (! Customsetting::get('eboekhouden_connected', $site['id'], 0) ? 'niet' : '') . ' geconnect')
+                    ->state(Customsetting::get('eboekhouden_connection_error', $site['id'], ''))
                     ->columnSpan([
                         'default' => 1,
                         'lg' => 2,
@@ -77,7 +77,7 @@ class EboekhoudenSettingsPage extends Page
 
             $tabs[] = Tab::make($site['id'])
                 ->label(ucfirst($site['name']))
-                ->schema($schema)
+                ->schema($newSchema)
                 ->columns([
                     'default' => 1,
                     'lg' => 2,
@@ -86,12 +86,8 @@ class EboekhoudenSettingsPage extends Page
         $tabGroups[] = Tabs::make('Sites')
             ->tabs($tabs);
 
-        return $tabGroups;
-    }
-
-    public function getFormStatePath(): ?string
-    {
-        return 'data';
+        return $schema->schema($tabGroups)
+            ->statePath('data');
     }
 
     public function submit()
