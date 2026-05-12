@@ -80,6 +80,16 @@ MARKDOWN,
 
         cms()->registerSettingsPage(EboekhoudenSettingsPage::class, 'E-boekhouden', 'archive-box', 'Koppel E-boekhouden');
 
+        cms()->registerIntegration([
+            'slug' => 'eboekhouden',
+            'label' => 'e-Boekhouden',
+            'icon' => 'heroicon-o-document-text',
+            'category' => 'accounting',
+            'settings_page' => EboekhoudenSettingsPage::class,
+            'health_check' => fn (?string $siteId = null) => \Dashed\DashedCore\Integrations\IntegrationHealth::fromSettings(['eboekhouden_username'], $siteId, 'Username ontbreekt'),
+            'package' => 'dashed-ecommerce-eboekhouden',
+        ]);
+
         //        ecommerce()->widgets(
         //            'orders',
         //            array_merge(ecommerce()->widgets('orders'), [
