@@ -62,19 +62,19 @@ class EboekhoudenSettingsPage extends Page
                         'lg' => 2,
                     ]),
                 TextInput::make("eboekhouden_username_{$site['id']}")
-                    ->label('E-boekhouden username')
+                    ->label(__('E-boekhouden username'))
                     ->maxLength(255),
                 TextInput::make("eboekhouden_security_code_1_{$site['id']}")
-                    ->label('E-boekhouden security code 1')
+                    ->label(__('E-boekhouden security code 1'))
                     ->maxLength(255),
                 TextInput::make("eboekhouden_security_code_2_{$site['id']}")
-                    ->label('E-boekhouden security code 2')
+                    ->label(__('E-boekhouden security code 2'))
                     ->maxLength(255),
                 TextInput::make("eboekhouden_grootboek_rekening_{$site['id']}")
-                    ->label('E-boekhouden grootboekrekening')
+                    ->label(__('E-boekhouden grootboekrekening'))
                     ->maxLength(255),
                 TextInput::make("eboekhouden_debiteuren_rekening_{$site['id']}")
-                    ->label('E-boekhouden debiteurenrekening')
+                    ->label(__('E-boekhouden debiteurenrekening'))
                     ->maxLength(255),
             ];
 
@@ -107,7 +107,7 @@ class EboekhoudenSettingsPage extends Page
         }
 
         Notification::make()
-            ->title('De E-boekhouden instellingen zijn opgeslagen')
+            ->title(__('De E-boekhouden instellingen zijn opgeslagen'))
             ->success()
             ->send();
 
