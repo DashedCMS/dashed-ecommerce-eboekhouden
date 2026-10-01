@@ -13,6 +13,8 @@ class Eboekhouden
 {
     public const SOAPBASEURL = "https://soap.e-boekhouden.nl/soap.asmx?WSDL";
 
+    public const DEFAULT_PAYMENT_TERM_DAYS = 30;
+
     public static function getSoapClient()
     {
         $client = new SoapClient(self::SOAPBASEURL);
@@ -80,6 +82,21 @@ class Eboekhouden
         return false;
     }
 
+    /**
+     * De termijn komt uit de vervaldatum die bij het plaatsen op de order is
+     * vastgelegd (bestellen op rekening), niet uit de huidige instelling van
+     * de klant: een latere wijziging daarvan mag een al geboekte factuur niet
+     * veranderen. Zonder vervaldatum blijft het de oude vaste 30 dagen.
+     */
+    public static function paymentTermDays(Order $order): int
+    {
+        if (! $order->payment_due_at || ! $order->created_at) {
+            return self::DEFAULT_PAYMENT_TERM_DAYS;
+        }
+
+        return max(0, (int) $order->created_at->copy()->startOfDay()->diffInDays($order->payment_due_at->copy()->startOfDay(), false));
+    }
+
     public static function pushOrder(EboekhoudenOrder $eboekhoudenOrder)
     {
         if ($eboekhoudenOrder->pushed) {
@@ -143,7 +160,9 @@ class Eboekhouden
                     $eboekhoudenOrder->save();
                 }
             } catch (\Exception $e) {
-                dd($e->getMessage());
+                report($e);
+                $eboekhoudenOrder->pushed = 2;
+                $eboekhoudenOrder->save();
             }
         }
 
@@ -252,7 +271,7 @@ class Eboekhouden
                         'MutatieRegels' => [
                             'cMutatieRegel' => $invoiceLines,
                         ],
-                        'Betalingstermijn' => 30,
+                        'Betalingstermijn' => self::paymentTermDays($eboekhoudenOrder->order),
                         'Omschrijving' => 'Order: ' . $eboekhoudenOrder->order->invoice_id,
 //                        'InExBTW' => $order->btw ? 'EX' : 'IN'
                         'InExBTW' => 'IN',
