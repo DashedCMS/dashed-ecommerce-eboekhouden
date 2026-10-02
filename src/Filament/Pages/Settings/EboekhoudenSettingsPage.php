@@ -16,6 +16,7 @@ use Dashed\DashedEcommerceEboekhouden\Classes\Eboekhouden;
 
 class EboekhoudenSettingsPage extends Page
 {
+    use \Dashed\DashedCore\Filament\Concerns\TranslatesPageLabels;
     use HasSettingsPermission;
 
     protected static bool $shouldRegisterNavigation = false;
