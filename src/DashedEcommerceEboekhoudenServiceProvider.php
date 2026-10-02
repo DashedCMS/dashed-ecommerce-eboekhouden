@@ -104,6 +104,7 @@ MARKDOWN,
 
         $package
             ->name('dashed-ecommerce-eboekhouden')
+            ->hasTranslations()
             ->hasViews()
             ->hasCommands([
                 PushOrdersToEboekhoudenCommand::class,
