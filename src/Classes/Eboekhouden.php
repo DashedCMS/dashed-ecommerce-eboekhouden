@@ -86,15 +86,34 @@ class Eboekhouden
      * De termijn komt uit de vervaldatum die bij het plaatsen op de order is
      * vastgelegd (bestellen op rekening), niet uit de huidige instelling van
      * de klant: een latere wijziging daarvan mag een al geboekte factuur niet
-     * veranderen. Zonder vervaldatum blijft het de oude vaste 30 dagen.
+     * veranderen. Zonder vervaldatum geldt de termijn van de klant of de
+     * winkelstandaard (OnAccountSettings), en pas zonder die twee de oude
+     * vaste 30 dagen.
      */
     public static function paymentTermDays(Order $order): int
     {
         if (! $order->payment_due_at || ! $order->created_at) {
-            return self::DEFAULT_PAYMENT_TERM_DAYS;
+            return self::defaultPaymentTermDays($order);
         }
 
         return max(0, (int) $order->created_at->copy()->startOfDay()->diffInDays($order->payment_due_at->copy()->startOfDay(), false));
+    }
+
+    protected static function defaultPaymentTermDays(Order $order): int
+    {
+        $settings = \Dashed\DashedEcommerceCore\Services\OnAccount\OnAccountSettings::class;
+
+        if (! class_exists($settings)) {
+            return self::DEFAULT_PAYMENT_TERM_DAYS;
+        }
+
+        $user = rescue(fn () => $order->user, null, false);
+
+        if ($user instanceof \Dashed\DashedCore\Models\User) {
+            return $settings::termDaysFor($user);
+        }
+
+        return (int) Customsetting::get('on_account_default_term_days', null, (string) self::DEFAULT_PAYMENT_TERM_DAYS);
     }
 
     public static function pushOrder(EboekhoudenOrder $eboekhoudenOrder)
