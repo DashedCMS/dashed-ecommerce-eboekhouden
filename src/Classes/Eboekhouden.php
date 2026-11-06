@@ -22,6 +22,11 @@ class Eboekhouden
         return $client;
     }
 
+    public static function hasOrdersToPush(): bool
+    {
+        return rescue(fn () => \Dashed\DashedEcommerceEboekhouden\Models\EboekhoudenOrder::where('pushed', '!=', 1)->exists(), true, false);
+    }
+
     public static function openSession($siteId)
     {
         $username = Customsetting::get('eboekhouden_username', $siteId);

@@ -20,7 +20,10 @@ class DashedEcommerceEboekhoudenServiceProvider extends PackageServiceProvider
     {
         $this->app->booted(function () {
             $schedule = app(Schedule::class);
-            $schedule->command(PushOrdersToEboekhoudenCommand::class)->everyFifteenMinutes();
+            $schedule->command(PushOrdersToEboekhoudenCommand::class)
+                ->everyFifteenMinutes()
+                ->when(fn () => \Dashed\DashedEcommerceEboekhouden\Classes\Eboekhouden::hasOrdersToPush())
+                ->withoutOverlapping(15);
         });
 
         Livewire::component('show-eboekhouden-order', ShowEboekhoudenShopOrder::class);
