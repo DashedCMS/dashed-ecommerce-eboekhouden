@@ -40,7 +40,7 @@ class PushOrdersToEboekhoudenCommand extends Command
     public function handle()
     {
         if (Eboekhouden::isConnected()) {
-            foreach (EboekhoudenOrder::where('pushed', '!=', 1)->get() as $eboekhoudenOrder) {
+            foreach (EboekhoudenOrder::where('pushed', '!=', 1)->whereHas('order')->get() as $eboekhoudenOrder) {
                 Eboekhouden::pushOrder($eboekhoudenOrder);
             }
         }

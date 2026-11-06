@@ -123,7 +123,8 @@ class Eboekhouden
 
     public static function pushOrder(EboekhoudenOrder $eboekhoudenOrder)
     {
-        if ($eboekhoudenOrder->pushed) {
+        // Zonder order (soft-deleted) valt er niets te pushen.
+        if ($eboekhoudenOrder->pushed || ! $eboekhoudenOrder->order) {
             return;
         }
 
